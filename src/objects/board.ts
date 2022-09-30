@@ -18,7 +18,7 @@ export default class Board {
     this.pointsNeeded = 0;
     this.earnedPoints = 0;
     this.style = {
-      // 'font': '14px Cozette',
+      'font': '14px Cozette',
       'text-align': 'right',
       'color': '#222034'
     };

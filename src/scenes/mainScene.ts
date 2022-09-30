@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene {
     this.board = new Board(this.emitter, this);
     this.toast = new Toast(this.emitter, this);
     this.add.dom(223, 0, 'p', {
-      // 'font': '14px Arial',
+      'font': '14px Cozette',
       'text-align': 'right',
       'color': '#e3dac9'
     }, `Level: ${this.level}`.padStart(2,'0'));
