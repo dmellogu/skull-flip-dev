@@ -1,4 +1,5 @@
 import Tile from './tile';
+import SpecialTile from './specialTile';
 
 export default class Board {
   nums: number[];
@@ -52,152 +53,98 @@ export default class Board {
     Phaser.Actions.GridAlign(tileGroup.getChildren(), {
       width: 5,
       height: 5,
-      cellWidth: 32,
-      cellHeight: 32,
+      cellWidth: 32 * 4,
+      cellHeight: 32 * 4,
       position: Phaser.Display.Align.TOP_LEFT,
-      x: 18,
-      y: 17
+      x: 64 + 1,
+      y: 64 + 1
     });
   }
 
   createHorizontalCountGroup() {
-    // background tile
-    let horizontalCountGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    horizontalCountGroup.add(this.scene.add.sprite(100, 100, 'redTile'));
-    horizontalCountGroup.add(this.scene.add.sprite(100, 100, 'greenTile'));
-    horizontalCountGroup.add(this.scene.add.sprite(100, 100, 'orangeTile'));
-    horizontalCountGroup.add(this.scene.add.sprite(100, 100, 'blueTile'));
-    horizontalCountGroup.add(this.scene.add.sprite(100, 100, 'purpleTile'));
-    Phaser.Actions.GridAlign(horizontalCountGroup.getChildren(), {
-      width: 5,
-      height: 1,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 18,
-      y: 175
-    });
-
-    // small skull
-    let smallSkullGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    for (let i = 0; i < 5; i++) smallSkullGroup.add(this.scene.add.sprite(100, 100, 'deadTile'));
-    Phaser.Actions.GridAlign(smallSkullGroup.getChildren(), {
-      width: 5,
-      height: 1,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 18,
-      y: 175
-    });
-
-    // points
     let horizontalNumGroup: Phaser.GameObjects.Group = this.scene.add.group();
     for (let col = 0; col < 5; col++) {
-      let sum = 0;
+      let points = 0;
+      let skulls = 0;
       for (let row = 0; row < 5; row++) {
-        sum += this.nums[(5 * row) + col]
+        let tmp = this.nums[(5 * row) + col];
+        (tmp === 0) ? skulls += 1 : points += tmp;
       }
-      horizontalNumGroup.add(this.scene.add.dom(100, 100, 'p', this.style, `${sum}`.padStart(2,'0')));
+      let texture = '';
+      if (col === 0) {
+        texture = 'redTile';
+      } else if (col === 1) {
+        texture = 'greenTile';
+      } else if (col === 2) {
+        texture = 'orangeTile';
+      } else if (col === 3) {
+        texture = 'blueTile';
+      } else if (col === 4) {
+        texture = 'purpleTile';
+      }
+      horizontalNumGroup.add(
+        this.scene.add.existing(
+          new SpecialTile(this.scene, 100, 100, texture, {
+            emitter: this.emitter,
+            points: points,
+            skulls: skulls
+          })
+        )
+      );
     }
     Phaser.Actions.GridAlign(horizontalNumGroup.getChildren(), {
       width: 5,
       height: 1,
-      cellWidth: 32,
-      cellHeight: 32,
+      cellWidth: 32 * 4,
+      cellHeight: 32 * 4,
       position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 25.5,
-      y: 147.5
+      x: 64 + 1,
+      y: 608 + 1
     });
-
-    // skulls
-    let horizontalSkullGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    for (let col = 0; col < 5; col++) {
-      let sum = 0;
-      for (let row = 0; row < 5; row++) {
-        if (this.nums[(5 * row) + col] === 0) sum += 1;
-      }
-      horizontalSkullGroup.add(this.scene.add.dom(100, 100, 'p', this.style, `${sum}`));
-    }
-    Phaser.Actions.GridAlign(horizontalSkullGroup.getChildren(), {
-      width: 5,
-      height: 1,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 37,
-      y: 160.5
-    });
+    this.emitter.emit('reposition');
   }
 
-  createVerticalCountGroup() {
-    // background tile
-    let verticalCountGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    verticalCountGroup.add(this.scene.add.sprite(100, 100, 'redTile'));
-    verticalCountGroup.add(this.scene.add.sprite(100, 100, 'greenTile'));
-    verticalCountGroup.add(this.scene.add.sprite(100, 100, 'orangeTile'));
-    verticalCountGroup.add(this.scene.add.sprite(100, 100, 'blueTile'));
-    verticalCountGroup.add(this.scene.add.sprite(100, 100, 'purpleTile'));
-    Phaser.Actions.GridAlign(verticalCountGroup.getChildren(), {
-      width: 1,
-      height: 5,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 178,
-      y: 15
-    });
-
-    // small skull
-    let smallSkullGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    for (let i = 0; i < 5; i++) smallSkullGroup.add(this.scene.add.sprite(100, 100, 'deadTile'));
-    Phaser.Actions.GridAlign(smallSkullGroup.getChildren(), {
-      width: 1,
-      height: 5,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 178,
-      y: 15
-    });
-
-    // points
+  createVerticalCountGroup() { // 178 15
     let verticalNumGroup: Phaser.GameObjects.Group = this.scene.add.group();
     for (let row = 0; row < 5; row++) {
-      let sum = 0;
+      let points = 0;
+      let skulls = 0;
       for (let col = 0; col < 5; col++) {
-        sum += this.nums[(5 * row) + col]
+        let tmp = this.nums[(5 * row) + col];
+        (tmp === 0) ? skulls += 1 : points += tmp;
       }
-      verticalNumGroup.add(this.scene.add.dom(100, 100, 'p', this.style, `${sum}`.padStart(2,'0')));
+      let texture = '';
+      if (row === 0) {
+        texture = 'redTile';
+      } else if (row === 1) {
+        texture = 'greenTile';
+      } else if (row === 2) {
+        texture = 'orangeTile';
+      } else if (row === 3) {
+        texture = 'blueTile';
+      } else if (row === 4) {
+        texture = 'purpleTile';
+      }
+      verticalNumGroup.add(
+        this.scene.add.existing(
+          new SpecialTile(this.scene, 100, 100, texture, {
+            emitter: this.emitter,
+            points: points,
+            skulls: skulls
+          })
+        )
+      );
     }
     Phaser.Actions.GridAlign(verticalNumGroup.getChildren(), {
       width: 1,
       height: 5,
-      cellWidth: 32,
-      cellHeight: 32,
+      cellWidth: 32 * 4,
+      cellHeight: 32 * 4,
       position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 185.5,
-      y: -12.5
+      x: 704 + 1,
+      y: -34 + 1
     });
-
-    // skulls
-    let verticalSkullGroup: Phaser.GameObjects.Group = this.scene.add.group();
-    for (let row = 0; row < 5; row++) {
-      let sum = 0;
-      for (let col = 0; col < 5; col++) {
-        if (this.nums[(5 * row) + col] === 0) sum += 1;
-      }
-      verticalSkullGroup.add(this.scene.add.dom(100, 100, 'p', this.style, `${sum}`));
-    }
-    Phaser.Actions.GridAlign(verticalSkullGroup.getChildren(), {
-      width: 1,
-      height: 5,
-      cellWidth: 32,
-      cellHeight: 32,
-      position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 197,
-      y: 0.5
-    });
+    this.emitter.emit('reposition');
   }
 }
 

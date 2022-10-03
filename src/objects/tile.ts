@@ -15,6 +15,8 @@ export default class Tile extends Phaser.GameObjects.Sprite {
   ) {
     super(scene, x, y, texture)
     this.setInteractive();
+    this.setScale(4);
+    this.setOrigin(0,0);
     this.row = data['row'];
     this.col = data['col'];
     this.emitter = data['emitter'];
@@ -51,13 +53,20 @@ export default class Tile extends Phaser.GameObjects.Sprite {
     this.setTexture('flippedTile');
     this.flipped = true;
     if (this.num === 0) {
-      this.scene.add.sprite(this.x, this.y, 'bigDeadTile');
-    } else if (this.num === 1) {
-      this.scene.add.sprite(this.x, this.y, 'bigOneTile');
-    } else if (this.num === 2) {
-      this.scene.add.sprite(this.x, this.y, 'bigTwoTile');
-    } else if (this.num === 3) {
-      this.scene.add.sprite(this.x, this.y, 'bigThreeTile');
+      this.scene.add.sprite(this.x, this.y, 'bigDeadTile').setOrigin(0).setScale(4);
+    } else {
+      this.scene.add.text(
+        this.x + 48,
+        this.y + 14,
+        `${this.num}`,
+        {
+          fontFamily: 'alagard',
+          fontSize: '88px',
+          color: '#222034',
+          //color: '#e3dac9',
+          align: 'center'
+        }
+      ).setOrigin(0);
     }
   }
 
