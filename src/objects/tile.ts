@@ -29,10 +29,23 @@ export default class Tile extends Phaser.GameObjects.Sprite {
       (b) ? this.disableInteractive() : this.setInteractive();
     }, this);
     this.emitter.on('gameOver', () => {
-      if (!this.flipped) this.flipTile();
+      if (!this.flipped) {
+        this.flipTile();
+        this.seeThrough();
+      }
     }, this);
     this.emitter.on('levelCleared', () => {
-      if (!this.flipped) this.flipTile();
+      if (!this.flipped) {
+        this.flipTile();
+        this.seeThrough();
+      }
+    }, this);
+    this.emitter.on('rowColFlip', (type: string, pos: number) => {
+      if (!this.flipped) {
+        if (type === 'row' && this.row === pos) this.tilePointerUp();
+        if (type === 'col' && this.col === pos) this.tilePointerUp();
+      }
+      
     }, this);
   }
 
@@ -74,5 +87,9 @@ export default class Tile extends Phaser.GameObjects.Sprite {
     if (row === this.row && col === this.col && !this.flipped) {
       this.tilePointerUp();
     }
+  }
+
+  seeThrough() {
+    this.scene.add.sprite(this.x, this.y, 'tile').setOrigin(0).setScale(4).setAlpha(0.5);
   }
 }

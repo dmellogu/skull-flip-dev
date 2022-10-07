@@ -19,15 +19,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('openMemo', 'assets/img/openMemo.png');
 
     this.load.html('connectForm', 'assets/text/connectForm.html');
-    this.load.plugin(
-      'rexhorrifipipelineplugin',
-      'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexhorrifipipelineplugin.min.js',
-      true
-    );
   }
 
   create() {
-    //this.scene.start('MainMenu');
     this.scene.start('MainScene', {level: 1});
   }
 }

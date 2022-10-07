@@ -5,7 +5,10 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
     skullSprite: Phaser.GameObjects.Sprite;
     pointsText: Phaser.GameObjects.Text;
     skullsText: Phaser.GameObjects.Text;
-  
+    type: string;
+    pos: number;
+
+
     constructor(
       scene: any,
       x: number,
@@ -14,11 +17,14 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
       data: object
     ) {
       super(scene, x, y, texture);
+      this.setInteractive();
       this.setScale(4);
       this.setOrigin(0,0);
       //this.setAlpha(0.4);
       this.points = data['points'];
       this.skulls = data['skulls'];
+      this.type = data['type'];
+      this.pos = data['pos'];
 
       this.skullSprite = this.scene.add.sprite(this.x, this.y, 'deadTile').setScale(4);
 
@@ -62,6 +68,10 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
         this.skullsText.setX(this.x + 74);
         this.skullsText.setY(this.y + 60);
         this.skullsText.setDepth(1);
+      }, this);
+
+      this.on('pointerup', () => {
+        this.emitter.emit('rowColFlip', this.type, this.pos);
       }, this);
     }
   }

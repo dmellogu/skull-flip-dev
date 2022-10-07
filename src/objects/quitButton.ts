@@ -23,7 +23,6 @@ export default class QuitButton {
   }
 
   handleClick() {
-    //this.scene.scene.start('MainMenu');
     console.log('main menu needs to be worked on first!')
   }
 }

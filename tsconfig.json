@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
+        //"esModuleInterop": true,
+        //"allowSyntheticDefaultImports": true,
         "target": "es5",
-        "moduleResolution": "node"
+        "moduleResolution": "node",
     },
     "include": [
         "./src/**/*"

@@ -7,6 +7,7 @@
         "dev": "rollup --config rollup.config.dev.js",
         "build": "rollup --config rollup.config.dist.js",
         "watch": "rollup --watch --config rollup.config.dev.js",
+        "watch2": "rollup --watch --config rollup.config.dev2.js",
         "deploy": "touch dist/.nojekyll && gh-pages -t -d dist -m \"Build for $(git log -n1 --pretty=format:\"%h %s\") [skip ci]\""
     },
     "repository": {
@@ -33,7 +34,7 @@
     },
     "dependencies": {
         "clipboard": "^2.0.11",
-        "peerjs": "^1.4.7",
+        "peerjs": "^2.0.0-beta.3",
         "phaser3-rex-plugins": "^1.1.74"
     }
 }

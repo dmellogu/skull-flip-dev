@@ -1,5 +1,4 @@
 import 'phaser';
-import MainMenu from './scenes/mainMenu';
 import MainScene from './scenes/mainScene';
 import PreloadScene from './scenes/preloadScene';
 import HorrifiPipelinePlugin from 'phaser3-rex-plugins/plugins/horrifipipeline-plugin.js';
@@ -25,14 +24,14 @@ const config = {
   dom: {
     createContainer: true
   },
-  // plugins: {
-  //   global: [{
-  //       key: 'rexHorrifiPipeline',
-  //       plugin: HorrifiPipelinePlugin,
-  //       start: true
-  //   }]
-  // },
-  scene: [PreloadScene, MainMenu, MainScene]
+  plugins: {
+    global: [{
+        key: 'rexHorrifiPipeline',
+        plugin: HorrifiPipelinePlugin,
+        start: true
+    }]
+  },
+  scene: [PreloadScene, MainScene]
 };
 
 const game = new Phaser.Game(config);

@@ -87,7 +87,9 @@ export default class Board {
           new SpecialTile(this.scene, 100, 100, texture, {
             emitter: this.emitter,
             points: points,
-            skulls: skulls
+            skulls: skulls,
+            type: 'col',
+            pos: col
           })
         )
       );
@@ -130,7 +132,9 @@ export default class Board {
           new SpecialTile(this.scene, 100, 100, texture, {
             emitter: this.emitter,
             points: points,
-            skulls: skulls
+            skulls: skulls,
+            type: 'row',
+            pos: row
           })
         )
       );

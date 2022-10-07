@@ -12,6 +12,10 @@ export default class Toast {
     this.scene = scene;
     this.stopper = false;
 
+    // Add UI borders
+    this.scene.add.rectangle(223 * 4, 63 * 4, 60 * 4, 61 * 4, 0xffffff);
+    this.scene.add.rectangle(223 * 4, 63 * 4, 56 * 4, 57 * 4, 0x000);
+
     this.emitter.on('levelCleared', this.levelCleared, this);
     this.emitter.on('gameOver', this.gameOver, this);
   }
