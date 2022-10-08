@@ -1,36 +1,18 @@
-# Phaser 3 TypeScript Project Template
+# Skull-Flip
 
-This quick-start project template combines Phaser 3.50 with [TypeScript 4](https://www.typescriptlang.org/) and uses [Rollup](https://rollupjs.org) for bundling.
+[Click here to play](https://dmellogu.github.io/skull-flip/)<br/>
+A Phaser3 game inspired by Voltorb Flip (WIP).
 
-## Requirements
+![Screenshot](screenshot.png "Skull-Flip Example")
 
-[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
 
-## Available Commands
+## About
 
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install project dependencies |
-| `npm run watch` | Build project and open web server running project, watching for changes |
-| `npm run dev` | Builds project and open web server, but do not watch for changes |
-| `npm run build` | Builds code bundle with production settings (minification, no source maps, etc..) |
+Skull-Flip is my recreation of Voltorb Flip, a minigame in the Korean and Western releases of Pokémon HeartGold and SoulSilver. This game is a cross between Picross and Minesweeper. It features a five-by-five grid of tiles, underneath of which are hidden numbers (1 through 3), and skulls. The goal of the game is to flip all the "2" and "3" tiles to continue on to the next level. If you flip a skull, you lose and return to level 1.
 
-## Writing Code
 
-After cloning the repo, run `npm install` from your project directory. Then, you can start the local development
-server by running `npm run watch`. The first time you run this you should see the following demo run:
+## Credits
 
-![Screenshot](screenshot.png "Phaser 3 Example")
-
-After starting the development server with `npm run watch`, you can edit any files in the `src` folder
-and Rollup will automatically recompile and reload your server (available at `http://localhost:10001`
-by default).
-
-## Configuring Rollup
-
-* Edit the file `rollup.config.dev.js` to edit the development build.
-* Edit the file `rollup.config.dist.js` to edit the distribution build.
-
-You will find lots of comments inside the rollup config files to help you do this.
-
-Note that due to the build process involved, it can take around 20 seconds to build the initial bundle. Times will vary based on CPU and local drive speeds. The development config does not minify the code in order to save build time, but it does generate source maps. If you do not require these, disable them in the config to speed it up further.
+* Alagard font: https://opengameart.org/content/pixel-fonts-by-pix3m
+* Project template: https://github.com/photonstorm/phaser3-typescript-project-template
+* npm run deploy command: https://github.com/yandeu/phaser-project-template/pull/10#issue-1306684978
