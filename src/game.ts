@@ -11,7 +11,7 @@ const config = {
   //backgroundColor: '#ffffff',
   //backgroundColor: '#222034',
   backgroundColor: '#000',
-  //antialias: false,
+  //antialias: true,
   //roundPixels: true,
   pixelArt: true,
   scale: {

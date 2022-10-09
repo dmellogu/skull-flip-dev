@@ -19,6 +19,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image('openMemo', 'assets/img/openMemo.png');
 
     this.load.html('connectForm', 'assets/text/connectForm.html');
+    this.load.html('tutorial', 'assets/text/tutorial.html');
   }
 
   create() {

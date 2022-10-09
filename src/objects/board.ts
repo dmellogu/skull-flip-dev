@@ -56,7 +56,7 @@ export default class Board {
       cellWidth: 32 * 4,
       cellHeight: 32 * 4,
       position: Phaser.Display.Align.TOP_LEFT,
-      x: 64 + 1,
+      x: 64 + 4,
       y: 64 + 1
     });
   }
@@ -100,7 +100,7 @@ export default class Board {
       cellWidth: 32 * 4,
       cellHeight: 32 * 4,
       position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 64 + 1,
+      x: 64 + 4,
       y: 608 + 1
     });
     this.emitter.emit('reposition');
@@ -145,7 +145,7 @@ export default class Board {
       cellWidth: 32 * 4,
       cellHeight: 32 * 4,
       position: Phaser.Display.Align.BOTTOM_LEFT,
-      x: 704 + 1,
+      x: 704 + 4,
       y: -34 + 1
     });
     this.emitter.emit('reposition');

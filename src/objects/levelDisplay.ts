@@ -6,15 +6,15 @@ export default class LevelDisplay {
     this.scene = scene;
     this.level = level;
 
-    let resetOuter = this.scene.add.rectangle(223 * 4, 16 * 4, 60 * 4, 29 * 4, 0xffffff);
-    let resetInner = this.scene.add.rectangle(223 * 4, 16 * 4, 56 * 4, 25 * 4, 0x000);
+    let resetOuter = this.scene.add.rectangle(208 * 4, 15 * 4, 30 * 4, 30 * 4, 0xffffff);
+    let resetInner = this.scene.add.rectangle(208 * 4, 15 * 4, 27 * 4, 27 * 4, 0x000);
     let resetText = this.scene.add.text(
       198 * 4,
-      32,
-      `LEVEL ${this.level}`,
+      36,
+      `Lv.${this.level}`,
       {
         fontFamily: 'alagard',
-        fontSize: '55px',
+        fontSize: '44px',
         color: '#ffffff',
         align: 'center'
       }

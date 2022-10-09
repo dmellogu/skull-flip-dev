@@ -73,5 +73,9 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
       this.on('pointerup', () => {
         this.emitter.emit('rowColFlip', this.type, this.pos);
       }, this);
+
+      this.emitter.on('modalOpen', (b: boolean) => {
+        (b) ? this.disableInteractive() : this.setInteractive();
+      }, this);
     }
   }

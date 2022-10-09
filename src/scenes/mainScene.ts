@@ -5,6 +5,7 @@ import QuitButton from '../objects/quitButton';
 import LevelDisplay from '../objects/levelDisplay';
 import { sfx } from '../objects/sfx';
 import ConnectBtn from '../objects/connectBtn';
+import TutorialButton from '../objects/tutorialButton';
 
 export default class MainScene extends Phaser.Scene {
   emitter: Phaser.Events.EventEmitter;
@@ -28,6 +29,7 @@ export default class MainScene extends Phaser.Scene {
     new ResetButton(this, this.emitter);
     //new QuitButton(this);
     new ConnectBtn(this, this.emitter);
+    new TutorialButton(this, this.emitter);
     sfx(this);
 
     // Add debugging hotkeys
