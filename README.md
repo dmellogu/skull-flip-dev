@@ -3,7 +3,7 @@
 [Click here to play](https://dmellogu.github.io/skull-flip/)<br/>
 A Phaser3 game inspired by Voltorb Flip (WIP).
 
-<img style="image-rendering: pixelated; image-rendering: -moz-crisp-edges;" src="dist/assets/img/bigDeadTile.png"  width="300" height="300">
+<img src="dist/assets/img/bigDeadTile.svg">
 
 
 ## About
