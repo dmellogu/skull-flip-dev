@@ -2,6 +2,7 @@ export default class ResetButton {
   scene: Phaser.Scene;
   emitter: Phaser.Events.EventEmitter;
   continue: boolean;
+  resetText: Phaser.GameObjects.Text;
 
   constructor(
       scene: Phaser.Scene,
@@ -13,7 +14,7 @@ export default class ResetButton {
 
     let resetOuter = this.scene.add.rectangle(223 * 4, 111 * 4, 60 * 4, 29 * 4, 0xffffff).setInteractive();
     let resetInner = this.scene.add.rectangle(223 * 4, 111 * 4, 56 * 4, 25 * 4, 0x000).setInteractive();
-    let resetText = this.scene.add.text(
+    this.resetText = this.scene.add.text(
       198 * 4,
       102 * 4,
       'RESET',
@@ -27,18 +28,21 @@ export default class ResetButton {
     
     resetOuter.on('pointerup', this.handleClick, this);
     resetInner.on('pointerup', this.handleClick, this);
-    resetText.on('pointerup', this.handleClick, this);
+    this.resetText.on('pointerup', this.handleClick, this);
     this.emitter.on('levelCleared', () => {
-      resetText.setText('CONTINUE');
+      this.resetText.setText('CONTINUE');
       this.continue = true;
     }, this);
   }
 
   handleClick() {
     if (this.continue) {
+      this.resetText.setText('RESET');
+      this.continue = false;
       this.emitter.emit('nextLevel');
     } else {
-      this.scene.scene.restart({level: 1});
+      //this.scene.scene.restart();
+      this.emitter.emit('reset');
     }
   }
 }

@@ -1,13 +1,15 @@
 export default class LevelDisplay {
   scene: Phaser.Scene;
+  emitter: Phaser.Events.EventEmitter;
   level: number;
 
-  constructor(scene: Phaser.Scene, level: number) {
+  constructor(scene: Phaser.Scene, emitter: Phaser.Events.EventEmitter, level: number) {
     this.scene = scene;
+    this.emitter = emitter;
     this.level = level;
 
-    let resetOuter = this.scene.add.rectangle(208 * 4, 15 * 4, 30 * 4, 30 * 4, 0xffffff);
-    let resetInner = this.scene.add.rectangle(208 * 4, 15 * 4, 27 * 4, 27 * 4, 0x000);
+    this.scene.add.rectangle(208 * 4, 15 * 4, 30 * 4, 30 * 4, 0xffffff);
+    this.scene.add.rectangle(208 * 4, 15 * 4, 27 * 4, 27 * 4, 0x000);
     let resetText = this.scene.add.text(
       198 * 4,
       36,
@@ -19,9 +21,15 @@ export default class LevelDisplay {
         align: 'center'
       }
     );
-  }
 
-  handleClick() {
-    this.scene.scene.restart({level: 1});
+    this.emitter.on('nextLevel', () => {
+      this.level += 1;
+      resetText.setText(`Lv.${this.level}`);
+    }, this);
+
+    this.emitter.on('reset', () => {
+      this.level = 1;
+      resetText.setText(`Lv.${this.level}`);
+    }, this);
   }
 }

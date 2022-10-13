@@ -20,18 +20,16 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
       this.setInteractive();
       this.setScale(4);
       this.setOrigin(0,0);
-      //this.setAlpha(0.4);
-      this.points = data['points'];
-      this.skulls = data['skulls'];
       this.type = data['type'];
       this.pos = data['pos'];
 
       this.skullSprite = this.scene.add.sprite(this.x, this.y, 'deadTile').setScale(4);
+      
 
       this.pointsText = this.scene.add.text(
         100,
         100,
-        `${this.points}`.padStart(2,'0'),
+        '00',
         {
           fontFamily: 'alagard',
           fontSize: '44px',
@@ -43,7 +41,7 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
       this.skullsText = this.scene.add.text(
         100,
         100,
-        `${this.skulls}`,
+        '0',
         {
           fontFamily: 'alagard',
           fontSize: '44px',
@@ -76,6 +74,19 @@ export default class SpecialTile extends Phaser.GameObjects.Sprite {
 
       this.emitter.on('modalOpen', (b: boolean) => {
         (b) ? this.disableInteractive() : this.setInteractive();
+      }, this);
+
+      this.emitter.on('setBoard', (board: number[]) => {
+        let points = 0;
+        let skulls = 0;
+        for (let i = 0; i < 5; i++) {
+          let tmp: number = 0;
+          if (this.type === 'row') tmp = board[(5 * this.pos) + i];
+          else tmp = board[(5 * i) + this.pos];
+          (tmp === 0) ? skulls += 1 : points += tmp;
+        }
+        this.pointsText.setText(`${points}`.padStart(2,'0'));
+        this.skullsText.setText(`${skulls}`);
       }, this);
     }
   }

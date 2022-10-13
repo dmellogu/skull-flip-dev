@@ -34,4 +34,4 @@ const config = {
   scene: [PreloadScene, MainScene]
 };
 
-const game = new Phaser.Game(config);
+new Phaser.Game(config);

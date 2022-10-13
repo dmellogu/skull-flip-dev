@@ -8,49 +8,71 @@ export default class Board {
   style: object;
   pointsNeeded: number;
   earnedPoints: number;
+  tileGroup: Phaser.GameObjects.Group;
+  horizontalGroup: Phaser.GameObjects.Group;
+  verticalGroup: Phaser.GameObjects.Group;
+
 
   constructor(
     emitter: Phaser.Events.EventEmitter,
-    scene: Phaser.Scene
+    scene: Phaser.Scene,
+    nums: number[]
     ) {
     this.emitter = emitter;
     this.scene = scene;
-    this.nums = Array.from({length: 25}, () => Math.floor(Math.random() * 4));
     this.pointsNeeded = 0;
     this.earnedPoints = 0;
-    this.style = {
-      'font': '14px Cozette',
-      'text-align': 'right',
-      'color': '#222034'
-    };
 
     this.createTileGroup();
     this.createHorizontalCountGroup();
     this.createVerticalCountGroup();
+    this.init(nums)
+    
     this.emitter.on('earnedPoint', () => {
       this.earnedPoints += 1;
       if (this.earnedPoints === this.pointsNeeded) this.emitter.emit('levelCleared');
     }, this);
+
+    this.emitter.on('setBoard', (board: number[])=> {
+      this.earnedPoints = 0;
+    }, this);
+
+    this.emitter.on('reset', () => {
+      this.init(Array.from({length: 25}, () => Math.floor(Math.random() * 4)));
+    }, this);
+
+    this.emitter.on('nextLevel', () => {
+      this.init(Array.from({length: 25}, () => Math.floor(Math.random() * 4)));
+    }, this);
   }
 
-  createTileGroup() {
-    let tileGroup: Phaser.GameObjects.Group = this.scene.add.group();
+  init(nums: number[]) {
+    this.nums = nums;
+    this.pointsNeeded = 0;
     for (let row = 0; row < 5; row++) {
       for (let col = 0; col < 5; col++) {
         if (this.nums[(row * 5) + col] === 2 || this.nums[(row * 5) + col] === 3) {
           this.pointsNeeded += 1;
         }
+      }
+    }
+    this.emitter.emit('setBoard', nums);
+  }
+
+  createTileGroup() {
+    this.tileGroup = this.scene.add.group();
+    for (let row = 0; row < 5; row++) {
+      for (let col = 0; col < 5; col++) {
         let tile = new Tile(this.scene, 100, 100, 'tile', {
           row: row,
           col: col,
-          emitter: this.emitter,
-          num: this.nums[(row * 5) + col]
+          emitter: this.emitter
         });
         this.scene.add.existing(tile);
-        tileGroup.add(tile);
+        this.tileGroup.add(tile);
       }
     }
-    Phaser.Actions.GridAlign(tileGroup.getChildren(), {
+    Phaser.Actions.GridAlign(this.tileGroup.getChildren(), {
       width: 5,
       height: 5,
       cellWidth: 32 * 4,
@@ -62,14 +84,8 @@ export default class Board {
   }
 
   createHorizontalCountGroup() {
-    let horizontalNumGroup: Phaser.GameObjects.Group = this.scene.add.group();
+    this.horizontalGroup = this.scene.add.group();
     for (let col = 0; col < 5; col++) {
-      let points = 0;
-      let skulls = 0;
-      for (let row = 0; row < 5; row++) {
-        let tmp = this.nums[(5 * row) + col];
-        (tmp === 0) ? skulls += 1 : points += tmp;
-      }
       let texture = '';
       if (col === 0) {
         texture = 'redTile';
@@ -82,19 +98,17 @@ export default class Board {
       } else if (col === 4) {
         texture = 'purpleTile';
       }
-      horizontalNumGroup.add(
+      this.horizontalGroup.add(
         this.scene.add.existing(
           new SpecialTile(this.scene, 100, 100, texture, {
             emitter: this.emitter,
-            points: points,
-            skulls: skulls,
             type: 'col',
             pos: col
           })
         )
       );
     }
-    Phaser.Actions.GridAlign(horizontalNumGroup.getChildren(), {
+    Phaser.Actions.GridAlign(this.horizontalGroup.getChildren(), {
       width: 5,
       height: 1,
       cellWidth: 32 * 4,
@@ -106,15 +120,9 @@ export default class Board {
     this.emitter.emit('reposition');
   }
 
-  createVerticalCountGroup() { // 178 15
-    let verticalNumGroup: Phaser.GameObjects.Group = this.scene.add.group();
+  createVerticalCountGroup() {
+    this.verticalGroup = this.scene.add.group();
     for (let row = 0; row < 5; row++) {
-      let points = 0;
-      let skulls = 0;
-      for (let col = 0; col < 5; col++) {
-        let tmp = this.nums[(5 * row) + col];
-        (tmp === 0) ? skulls += 1 : points += tmp;
-      }
       let texture = '';
       if (row === 0) {
         texture = 'redTile';
@@ -127,19 +135,17 @@ export default class Board {
       } else if (row === 4) {
         texture = 'purpleTile';
       }
-      verticalNumGroup.add(
+      this.verticalGroup.add(
         this.scene.add.existing(
           new SpecialTile(this.scene, 100, 100, texture, {
             emitter: this.emitter,
-            points: points,
-            skulls: skulls,
             type: 'row',
             pos: row
           })
         )
       );
     }
-    Phaser.Actions.GridAlign(verticalNumGroup.getChildren(), {
+    Phaser.Actions.GridAlign(this.verticalGroup.getChildren(), {
       width: 1,
       height: 5,
       cellWidth: 32 * 4,
@@ -151,8 +157,3 @@ export default class Board {
     this.emitter.emit('reposition');
   }
 }
-
-// var style = {
-//   'font': '20px Cozette'
-// };
-// this.scene.add.dom(this.x - 0.5, this.y - 18, 'p', style, `${this.num}`);

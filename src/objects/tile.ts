@@ -5,6 +5,8 @@ export default class Tile extends Phaser.GameObjects.Sprite {
   num: number;
   flipped: boolean;
   selected: boolean;
+  flippedSprite: Phaser.GameObjects.Sprite | Phaser.GameObjects.Text;
+  seeThroughSprite: Phaser.GameObjects.Sprite;
 
   constructor(
     scene: any,
@@ -20,7 +22,6 @@ export default class Tile extends Phaser.GameObjects.Sprite {
     this.row = data['row'];
     this.col = data['col'];
     this.emitter = data['emitter'];
-    this.num = data['num'];
     this.flipped = false;
 
     this.on('pointerup', this.tilePointerUp, this);
@@ -45,7 +46,15 @@ export default class Tile extends Phaser.GameObjects.Sprite {
         if (type === 'row' && this.row === pos) this.tilePointerUp();
         if (type === 'col' && this.col === pos) this.tilePointerUp();
       }
-      
+    }, this);
+    this.emitter.on('setBoard', (board: number[])=> {
+      if (this.flipped) {
+        this.flipped = false;
+        this.setTexture('tile');
+      }
+      if (this.flippedSprite) this.flippedSprite.destroy(true);
+      if (this.seeThroughSprite) this.seeThroughSprite.destroy(true);
+      this.num = board[(this.row * 5) + this.col]
     }, this);
   }
 
@@ -66,9 +75,9 @@ export default class Tile extends Phaser.GameObjects.Sprite {
     this.setTexture('flippedTile');
     this.flipped = true;
     if (this.num === 0) {
-      this.scene.add.sprite(this.x, this.y, 'bigDeadTile').setOrigin(0).setScale(4);
+      this.flippedSprite = this.scene.add.sprite(this.x, this.y, 'bigDeadTile').setOrigin(0).setScale(4);
     } else {
-      this.scene.add.text(
+      this.flippedSprite = this.scene.add.text(
         this.x + 48,
         this.y + 14,
         `${this.num}`,
@@ -76,7 +85,6 @@ export default class Tile extends Phaser.GameObjects.Sprite {
           fontFamily: 'alagard',
           fontSize: '88px',
           color: '#222034',
-          //color: '#e3dac9',
           align: 'center'
         }
       ).setOrigin(0);
@@ -90,6 +98,6 @@ export default class Tile extends Phaser.GameObjects.Sprite {
   }
 
   seeThrough() {
-    this.scene.add.sprite(this.x, this.y, 'tile').setOrigin(0).setScale(4).setAlpha(0.5);
+    this.seeThroughSprite = this.scene.add.sprite(this.x, this.y, 'tile').setOrigin(0).setScale(4).setAlpha(0.5);
   }
 }

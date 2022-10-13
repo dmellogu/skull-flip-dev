@@ -11,27 +11,27 @@ export function sfx (scene: Phaser.Scene) {
 
     // Chromatic abberation
     chromaticEnable: true,
-    chabIntensity: 0.3,
+    chabIntensity: 0.2,
 
     // Vignette
-    vignetteEnable: false,
-    vignetteStrength: 1, vignetteIntensity: 0.3,
+    vignetteEnable: true,
+    vignetteStrength: 1, vignetteIntensity: 0.1,
 
     // Noise
     noiseEnable: true,
     noiseStrength: 0.15,
-    noiseSeed: 0.4,
+    noiseSeed: Math.random().toFixed(2),
 
     // VHS
     vhsEnable: true,
     vhsStrength: 0.2,
 
     // Scanlines
-    scanlinesEnable: false,
+    scanlinesEnable: true,
     scanStrength: 0.1,
 
     // CRT
-    crtEnable: false,
+    crtEnable: true,
     crtWidth: 5, crtHeight: 5,
   });
 }
